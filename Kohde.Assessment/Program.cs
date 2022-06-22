@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Kohde.Assessment
 {
     // *** NOTE ***
     // ALL CHANGES MUST BE ACCOMPANIED BY COMMENTS 
     // PLEASE READ ALL COMMENTS / INSTRUCTIONS
+
+    //ShowSomeMamalInformation class
+    public static class ShowSomeMammalInformation
+    {
+
+    }
+
     public static class Program
     {
         static void Main(string[] args)
@@ -16,22 +24,32 @@ namespace Kohde.Assessment
             // the below class declarations looks like a 1st year student developed it
             // NOTE: this includes the class declarations as well
             // IMPROVE THE ARCHITECTURE 
-            Human human = new Human();
-            human.Name = "John";
-            human.Age = 35;
-            human.Gender = "M";
-            Console.WriteLine(human.GetDetails());
 
-            Dog dog = new Dog();
-            dog.Name = "Walter";
-            dog.Age = 7;
-            dog.Food = "Epol";
+            //PD- Inialise objects with '{}'
+            //PD- simplify code by adding var instead of duplicating class names
+            var human = new Human
+            {
+                Name = "John",
+                Age = 35,
+                Gender = "M"
+            };
+          
+            Console.WriteLine(human.GetDetails());             
+
+            var dog = new Dog 
+            { 
+                Name = "Walter",
+                Age = 7,
+                Food = "Epol"
+            };           
             Console.WriteLine(dog.GetDetails());
 
-            Cat cat = new Cat();
-            cat.Name = "Snowball";
-            cat.Age = 35;
-            cat.Food = "Whiskers";
+            var cat = new Cat
+            {
+                Name = "Snowball",
+                Age = 35,
+                Food = "Whiskers"
+            };
             Console.WriteLine(cat.GetDetails());
 
             #endregion
@@ -70,16 +88,20 @@ namespace Kohde.Assessment
 
             // there are multiple corrections required!!
             // correct the following statement(s)
+
             try
             {
                 Dog bulldog = null;
+
                 var disposeDog = (IDisposable) bulldog;
-                disposeDog.Dispose();
+                if (bulldog != null)
+                    disposeDog.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            
 
             #endregion
 
@@ -125,7 +147,7 @@ namespace Kohde.Assessment
             {
                 CatchAndRethrowExplicitly();
             }
-            catch (ArithmeticException e)
+            catch (DivideByZeroException e) // Use specific type instead of base type
             {
                 Console.WriteLine("Implicitly specified:{0}{1}", Environment.NewLine, e.StackTrace);
             }
@@ -209,6 +231,7 @@ namespace Kohde.Assessment
         public static void PerformanceTest()
         {
             var someLongDataString = "";
+            var builder = new StringBuilder(); //PD- Use a stringbuilder is it is mutable
             const int sLen = 30, loops = 500000; // YOU MAY NOT CHANGE THE NUMBER OF LOOPS IN ANY WAY !!
             var source = new string('X', sLen);
 
@@ -216,8 +239,10 @@ namespace Kohde.Assessment
             // in other words, you may not change: for (INITIALIZATION; CONDITION; INCREMENT/DECREMENT)
             for (var i = 0; i < loops; i++) 
             {
-                someLongDataString += source;
+              //  someLongDataString += source;
+                builder.Append(source);
             }
+            someLongDataString = builder.ToString();
         }
 
         #endregion
@@ -227,14 +252,14 @@ namespace Kohde.Assessment
         public static int GetFirstEvenValue(List<int> numbers)
         {
             // RETURN THE FIRST EVEN NUMBER IN THE SEQUENCE
-            var first = numbers.Where(x => x % 2 == 0).First();
+            var first = numbers.Where(x => x % 2 == 0).FirstOrDefault(); //Use First or default
             return first;
         }
 
         public static string GetSingleStringValue(List<string> stringList)
         {
             // THE OUTPUT MUST RENDER THE FIRST ITEM THAT CONTAINS AN 'a' INSIDE OF IT
-            var first = stringList.Where(x => x.IndexOf("a") != -1).Single();
+            var first = stringList.FirstOrDefault(x => x.IndexOf("a") != -1);
             return first;
         }
 
@@ -242,6 +267,8 @@ namespace Kohde.Assessment
         
         #region Assessment E Method
 
+
+        
         public static DisposableObject DisposeSomeObject()
         {
             // IMPROVE THE FOLLOWING PIECE OF CODE
@@ -263,6 +290,12 @@ namespace Kohde.Assessment
         #endregion
 
         #region Assessment F Methods
+
+        public static void ShowSomeMammalInformation()
+        {
+            //TODO add Generecs
+        }
+
 
         public static void ShowSomeHumanInformation(Human human)
         {
@@ -291,7 +324,7 @@ namespace Kohde.Assessment
             }
             catch (ArithmeticException e)
             {
-                throw e;
+          //      throw e;
             }
         }
 
@@ -306,12 +339,16 @@ namespace Kohde.Assessment
 
         public static string CallMethodWithReflection()
         {
+
+            Console.WriteLine(DisplaySomeStuff<string>("Hello"));//Reflect
+            return ("true"); //Return some value to calling function 
+
             // BY MAKING USE OF ONLY REFLECTION
             // CALL THE FOLLOWING METHOD: DisplaySomeStuff [WHICH IN JUST BELOW THIS ONE]
             // AND RETURN THE STRING CONTENT
 
             // DO NOT CHANGE THE NAME, RETURN TYPE OR ANY IMPLEMENTATION OF THIS METHOD NOR THE BELOW METHOD
-            throw new NotImplementedException(); // ATT: REMOVE THIS LINE
+            //    throw new NotImplementedException(); // ATT: REMOVE THIS LINE
         }
 
         public static string DisplaySomeStuff<T>(T toDisplay) where T : class

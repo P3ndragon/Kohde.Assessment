@@ -38,6 +38,8 @@ namespace Kohde.Assessment
             if (disposing)
             {
                 // Dispose managed resources
+                
+               
             }
 
             // Free native resources
